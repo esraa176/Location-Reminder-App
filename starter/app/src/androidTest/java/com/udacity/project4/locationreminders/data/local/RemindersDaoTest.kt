@@ -12,12 +12,16 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi;
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Test
+import org.junit.runner.Result
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -27,4 +31,30 @@ class RemindersDaoTest {
 
 //    TODO: Add testing implementation to the RemindersDao.kt
 
+    private lateinit var database: RemindersDatabase
+    private lateinit var remindersDao: RemindersDao
+    private var reminderDTO: ReminderDTO = FakeDataSource.getReminders()
+
+    @Before
+    fun initDB(){
+        database = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            RemindersDatabase::class.java
+        ).setTransactionExecutor(Executors.newSingleThreadExecutor())
+            .build()
+
+        remindersDao = database.reminderDao()
+    }
+
+    @After
+    fun closeDB(){
+        database.close()
+    }
+
+    @Test
+    fun getReminder() = runBlocking {
+        remindersDao.saveReminder(reminderDTO)
+
+        val result = remindersDao.getReminderById("Fake Reminder") as Result.Success
+    }
 }
