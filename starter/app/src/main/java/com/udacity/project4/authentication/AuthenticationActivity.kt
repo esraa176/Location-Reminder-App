@@ -7,6 +7,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.ActivityAuthenticationBinding
 import com.udacity.project4.locationreminders.RemindersActivity
@@ -29,13 +30,19 @@ class AuthenticationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthenticationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-//         TODO: Implement the create account and sign in using FirebaseUI, use sign in using email and sign in using Google
-//          TODO: If the user was authenticated, send him to RemindersActivity
+        val auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            // already signed in
+            startActivity(RemindersActivity.createIntent(this))
+            finish()
+        } else {
+            // not signed in
+            binding = ActivityAuthenticationBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        binding.btnLogin.setOnClickListener {
-            startSignIn()
+            binding.btnLogin.setOnClickListener {
+                startSignIn()
+            }
         }
 //          TODO: a bonus is to customize the sign in flow to look nice using :
         //https://github.com/firebase/FirebaseUI-Android/blob/master/auth/README.md#custom-layout

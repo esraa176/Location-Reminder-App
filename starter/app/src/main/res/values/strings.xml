@@ -44,4 +44,8 @@
     <string name="login_failed">Failed to login. Try again.</string>
     <string name="login_network_error">Failed to login. Network error happened.</string>
     <string name="login_canceled">You need to login to be able to create reminder</string>
+    <string name="pick_location">You need to pick a location</string>
+    <string name="missing_data_error">Missing Data.</string>
+    <string name="location_granted">Location permission granted</string>
+    <string name="location_denied">Location permission denied</string>
 </resources>

@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".locationreminders.ReminderDescriptionActivity">
-        <!--TODO: add the design of the reminder details-->
 
         <TextView
             android:id="@+id/tv_reminderTitle"
@@ -48,6 +47,16 @@
             android:layout_height="wrap_content"
             app:dividerInsetStart="16dp"
             app:dividerInsetEnd="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_loctaion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/reminder_location"
+            android:padding="@dimen/padding_normal"
+            android:text="@{reminderDataItem.locationName}"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 </layout>

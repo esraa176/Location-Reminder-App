@@ -13,14 +13,10 @@ import org.junit.runner.RunWith;
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi;
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Test
-import org.junit.runner.Result
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 @ExperimentalCoroutinesApi
@@ -29,11 +25,11 @@ import java.util.concurrent.Executors
 @SmallTest
 class RemindersDaoTest {
 
-//    TODO: Add testing implementation to the RemindersDao.kt
-
     private lateinit var database: RemindersDatabase
     private lateinit var remindersDao: RemindersDao
-    private var reminderDTO: ReminderDTO = FakeDataSource.getReminders()
+
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun initDB(){
@@ -52,9 +48,33 @@ class RemindersDaoTest {
     }
 
     @Test
-    fun getReminder() = runBlocking {
-        remindersDao.saveReminder(reminderDTO)
+    fun saveReminder_getReminderId() = runBlocking {
+        // GIVEN
+        val fakeReminder = ReminderDTO("reminder 1","description","location", 100.0, 100.0)
+        remindersDao.saveReminder(fakeReminder)
 
-        val result = remindersDao.getReminderById("Fake Reminder") as Result.Success
+        // WHEN
+        val result = remindersDao.getReminderById(fakeReminder.id)
+
+        // THEN
+        assertThat(result, notNullValue())
+        assertThat(result?.id, `is`(fakeReminder.id))
+        assertThat(result?.title, `is`(fakeReminder.title))
+        assertThat(result?.description, `is`(fakeReminder.description))
+        assertThat(result?.location, `is`(fakeReminder.location))
+        assertThat(result?.latitude, `is`(fakeReminder.latitude))
+        assertThat(result?.longitude, `is`(fakeReminder.longitude))
+    }
+
+    @Test
+    fun givenUnsavedReminder_returnNoReminder() = runBlocking {
+        // GIVEN
+        val fakeReminderId = "fake reminder"
+
+        // WHEN
+        val result = remindersDao.getReminderById(fakeReminderId)
+
+        // THEN
+        assertThat(result, nullValue())
     }
 }
