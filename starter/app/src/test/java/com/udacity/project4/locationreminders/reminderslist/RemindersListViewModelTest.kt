@@ -4,10 +4,8 @@ import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.udacity.project4.R
 import com.udacity.project4.locationreminders.data.FakeDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
-import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.locationreminders.utils.MainCoroutineRule
 import com.udacity.project4.locationreminders.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +13,6 @@ import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.resumeDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
@@ -75,7 +72,6 @@ class RemindersListViewModelTest {
     @Test
     fun remindersList_checkLoading() = mainCoroutineRule.runBlockingTest {
         // GIVEN
-        val fakeReminder = ReminderDataItem("reminder", "description", "location", 100.00, 100.00)
         mainCoroutineRule.pauseDispatcher()
 
         // WHEN

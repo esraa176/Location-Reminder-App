@@ -57,16 +57,7 @@ abstract class BaseFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             && shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
         ) {
-            AlertDialog.Builder(requireContext())
-                .setTitle(R.string.location_required_error)
-                .setMessage(R.string.permission_denied_explanation)
-                .setPositiveButton("OK") { _, _ ->
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-                }
-                .show()
+            showLocationPermissionsDialog()
         } else {
             locationPermissionRequest.launch(locationPermissions)
         }
@@ -83,19 +74,23 @@ abstract class BaseFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             && shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         ) {
-            AlertDialog.Builder(requireContext())
-                .setTitle(R.string.location_required_error)
-                .setMessage(R.string.permission_denied_explanation)
-                .setPositiveButton("OK") { _, _ ->
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
-                    intent.data = uri
-                    startActivity(intent)
-                }
-                .show()
+            showLocationPermissionsDialog()
         } else {
             locationPermissionRequest.launch(locationPermissions)
         }
+    }
+
+    fun showLocationPermissionsDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.location_required_error)
+            .setMessage(R.string.permission_denied_explanation)
+            .setPositiveButton("OK") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .show()
     }
 
     override fun onStart() {

@@ -56,7 +56,7 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
                 ReminderDTO(
                     reminderData.title,
                     reminderData.description,
-                    reminderData.location!!,
+                    reminderData.location,
                     reminderData.latitude!!,
                     reminderData.longitude!!,
                     reminderData.id
@@ -77,7 +77,7 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
             return false
         }
 
-        if (reminderData.location.isNullOrEmpty()) {
+        if (reminderData.locationName.isNullOrEmpty()) {
             showSnackBarInt.value = R.string.err_select_location
             return false
         }
