@@ -150,7 +150,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
                 }
             } else {
-                _viewModel.showSnackBarInt.value = R.string.location_required_error
+                _viewModel.showSnackBarInt.value = R.string.location_disabled
             }
         }
     }

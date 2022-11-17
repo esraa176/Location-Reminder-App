@@ -49,4 +49,6 @@
     <string name="pick_location">You need to pick a location</string>
     <string name="missing_data_error">Missing Data.</string>
     <string name="location_denied">Location permission denied</string>
+    <string name="location_disabled">Device location disabled</string>
+    <string name="reminder_failed">Device location is required to create the reminder</string>
 </resources>

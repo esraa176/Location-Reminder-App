@@ -67,7 +67,7 @@ class SaveReminderViewModelTest {
         viewModel.reminderDataItem.value = fakeReminder
 
         // WHEN
-        viewModel.validateAndSaveReminder()
+        viewModel.saveReminder(fakeReminder)
 
         // THEN
         assertThat(viewModel.showLoading.getOrAwaitValue(), `is`(true))
